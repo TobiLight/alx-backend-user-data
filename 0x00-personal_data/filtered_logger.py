@@ -6,7 +6,7 @@
 import logging
 from typing import List
 import re
-from os import getenv
+import os
 import mysql.connector
 
 
@@ -58,10 +58,10 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """Connect to the MySQL database and return a connector"""
-    db_username = getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    db_password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    db_host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    db_name = getenv("PERSONAL_DATA_DB_NAME")
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
 
     # conntect to database
     return mysql.connector.connection.MySQLConnection(
