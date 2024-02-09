@@ -73,7 +73,10 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main() -> None:
-    """doc doc doc"""
+    """
+    Retrieve all rows in the users table and display each row under a
+    filtered format
+    """
     db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users")
