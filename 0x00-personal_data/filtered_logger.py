@@ -76,15 +76,17 @@ def main() -> None:
     """doc doc doc"""
     db = get_db()
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM users;")
-    log = get_logger()
-    # for row in cursor:
-    #     data = []
-    #     for desc, value in zip(cursor.description, row):
-    #         pair = f"{desc[0]}={str(value)}"
-    #         data.append(pair)
-    #     row_str = "; ".join(data)
-    #     log.info(row_str)
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+    logger = get_logger()
+    fields = ["name", "email", "phone", "ssn", "password",
+              "ip", "last_login", "user_agent"]
+    data = []
+    for row in rows:
+        for description, value in zip(fields, row):
+            info = "{}={}".format(description, value)
+            data.append(info)
+        logger.info("; ".join(data))
     cursor.close()
     db.close()
 
