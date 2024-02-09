@@ -6,6 +6,8 @@
 import logging
 from typing import List
 import re
+from os import getenv
+import mysql.connector
 
 
 def filter_datum(fields: List[str], redaction: str, message: str,
@@ -52,3 +54,19 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
 
     return logger
+
+
+def get_db():
+    """Connect to the MySQL database and return a connector"""
+    db_username = getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = getenv("PERSONAL_DATA_DB_NAME")
+
+    # conntect to database
+    return mysql.connector.connect(
+        user=db_username,
+        password=db_password,
+        host=db_host,
+        database=db_name
+    )
