@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """ Module of Index views
 """
-from flask import jsonify, abort
+from typing import NoReturn
+from flask import Response, jsonify, abort
 from api.v1.views import app_views
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def status() -> str:
+def status() -> Response:
     """ GET /api/v1/status
     Return:
       - the status of the API
@@ -15,7 +16,7 @@ def status() -> str:
 
 
 @app_views.route('/stats/', strict_slashes=False)
-def stats() -> str:
+def stats() -> Response:
     """ GET /api/v1/stats
     Return:
       - the number of each objects
@@ -27,7 +28,7 @@ def stats() -> str:
 
 
 @app_views.route('/unauthorized', strict_slashes=False)
-def unauthorized() -> str:
+def unauthorized() -> NoReturn:
   """
   GET /api/v1/unauthorized
   Raise:
