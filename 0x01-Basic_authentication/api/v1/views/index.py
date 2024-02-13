@@ -29,9 +29,9 @@ def stats() -> Response:
 
 @app_views.route('/unauthorized', strict_slashes=False)
 def unauthorized() -> NoReturn:
-  """
-  GET /api/v1/unauthorized
-  Raise:
-    - Raise a 401 error
-  """
-  return abort(401)
+    """
+    GET /api/v1/unauthorized
+    Raise:
+      - Raise a 401 error
+    """
+    abort(401)
