@@ -35,3 +35,13 @@ def unauthorized() -> NoReturn:
       - Raise a 401 error
     """
     abort(401)
+
+
+@app_views.route('/forbidden', strict_slashes=False)
+def forbidden() -> NoReturn:
+  """
+  GET /api/v1/forbidden
+  Raise:
+    - Raise a 403 error
+  """
+  abort(403)
