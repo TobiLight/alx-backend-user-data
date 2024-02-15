@@ -9,4 +9,3 @@ class SessionAuth(Auth):
     """
     Session Authentication
     """
-    pass
