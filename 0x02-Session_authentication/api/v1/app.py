@@ -23,7 +23,7 @@ if getenv('AUTH_TYPE') is not None:
 
 
 @app.before_request
-def authenticate_user():
+def before_request():
     """
     Authenticates a user before processing requests.
     """
