@@ -6,6 +6,10 @@ from os import getenv
 from api.v1.views import app_views
 from flask import Flask, abort, jsonify, request
 from flask_cors import (CORS)
+from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth
+auth = SessionAuth()
+
 
 
 app = Flask(__name__)
@@ -15,11 +19,11 @@ auth = None
 
 if getenv('AUTH_TYPE') is not None:
     if getenv('AUTH_TYPE') == 'basic_auth':
-        from api.v1.auth.basic_auth import BasicAuth
+        # from api.v1.auth.basic_auth import BasicAuth
         auth = BasicAuth()
     elif getenv('AUTH_TYPE') == 'session_auth':
-        from api.v1.auth.session_auth import SessionAuth
-        auth = SessionAuth()
+        # from api.v1.auth.session_auth import SessionAuth
+        # auth = SessionAuth()
     else:
         from api.v1.auth.auth import Auth
         auth = Auth()
