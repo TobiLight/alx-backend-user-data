@@ -54,12 +54,13 @@ def delete_session():
     """
     DELETE /api/v1/auth_session/logout
     Return:
-      - True if session_id exists
-      - False if no session_id
+      - an empty json object
     """
     from api.v1.app import auth
 
-    if auth.destroy_session(request):
+    user_session = auth.destroy_session(request)
+
+    if user_session:
         return jsonify({})
 
     return abort(404)
