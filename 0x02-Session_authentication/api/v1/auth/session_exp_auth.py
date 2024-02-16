@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 
 class SessionExpAuth(SessionAuth):
     """
-    Session Expiration Class
+    Session Authentication Expiration Class
     """
 
     def __init__(self) -> None:
