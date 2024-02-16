@@ -61,6 +61,6 @@ def delete_session():
     destroy_user_session = auth.destroy_session(request)
 
     if destroy_user_session:
-        return jsonify({})
+        return jsonify({}), 200
 
     abort(404)
