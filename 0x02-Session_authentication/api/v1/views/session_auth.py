@@ -58,9 +58,9 @@ def delete_session():
     """
     from api.v1.app import auth
 
-    user_session = auth.destroy_session(request)
+    destroy_user_session = auth.destroy_session(request)
 
-    if user_session:
+    if destroy_user_session:
         return jsonify({})
 
-    return abort(404)
+    abort(404)
