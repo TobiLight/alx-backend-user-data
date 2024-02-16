@@ -4,7 +4,7 @@ Module that handles all routes for the Session authentication
 """
 from os import getenv
 from api.v1.views import app_views
-from flask import jsonify, request
+from flask import abort, jsonify, request
 from models.user import User
 
 
@@ -46,3 +46,20 @@ def session_login():
     resp.set_cookie(getenv("SESSION_NAME"), user_session_id)
 
     return resp
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_session():
+    """
+    DELETE /api/v1/auth_session/logout
+    Return:
+      - True if session_id exists
+      - False if no session_id
+    """
+    from api.v1.app import auth
+
+    if auth.destroy_session(request):
+        return jsonify({})
+
+    abort(404)
