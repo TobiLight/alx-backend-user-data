@@ -4,11 +4,11 @@ Module that handles all routes for the Session authentication
 """
 from os import getenv
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import jsonify, request
 from models.user import User
 
 
-@app_views('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def session_login():
     """
     POST /api/v1/auth_session/login
@@ -19,8 +19,8 @@ def session_login():
       - User object JSON represented
       - 404 if no User found
     """
-    email = request.args.get('email')
-    password = request.args.get('password')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
     if email is None or len(email) == 0:
         return jsonify({"error": "email missing"}), 400
