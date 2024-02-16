@@ -52,6 +52,8 @@ class Auth:
         """
         Returns a cookie value from a request.
         """
-        if request is not None:
-            cookie_name = getenv('SESSION_NAME')
-            return request.cookies.get(cookie_name)
+        if request is None:
+            return None
+
+        cookie_name = getenv('SESSION_NAME')
+        return request.cookies.get(cookie_name)
