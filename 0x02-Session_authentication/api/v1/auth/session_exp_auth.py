@@ -46,8 +46,13 @@ class SessionExpAuth(SessionAuth):
         if session_id not in self.user_id_by_session_id:
             return None
 
-        if self.session_duration <= 0:
+        user_id = self.user_id_by_session_id.get(session_id)
+
+        if user_id is None:
             return None
+
+        if self.session_duration <= 0:
+            return user_id
 
         session_dict = self.user_id_by_session_id[session_id]
 
