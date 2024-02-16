@@ -3,6 +3,7 @@
 SessionExp Module
 """
 from os import getenv
+from flask import request
 from ..auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
 
