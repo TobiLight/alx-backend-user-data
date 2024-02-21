@@ -9,6 +9,7 @@ Base = declarative_base()
 
 
 class User(Base):
+    """Represents a user entity in the database."""
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
