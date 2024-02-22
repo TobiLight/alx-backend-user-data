@@ -98,13 +98,12 @@ class DB:
         if kwargs is None:
             return None
 
-        rqrd_usr = self.find_user_by(id=user_id)
-        key_cols = User.__table__.columns.keys()
-        for k in kwargs:
-            if k not in key_cols:
+        user = self.find_user_by(id=user_id)
+
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
                 raise ValueError
 
-        for k, v in kwargs.items():
-            setattr(rqrd_usr, k, v)
+            setattr(user, key, value)
 
         self._session.commit()
