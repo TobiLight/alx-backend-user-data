@@ -3,7 +3,7 @@
 
 import bcrypt
 from db import DB
-from bcrypt import hashpw, gensalt
+from bcrypt import hashpw, gensalt, checkpw
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -67,7 +67,7 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             if user is not None:
-                return bcrypt.checkpw(password.encode(
+                return checkpw(password.encode(
                     'utf-8'), hashed_password=user.hashed_password)
         except NoResultFound:
             return False
