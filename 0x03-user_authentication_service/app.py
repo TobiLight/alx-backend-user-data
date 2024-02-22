@@ -18,7 +18,7 @@ def index() -> Response:
 
 
 @app.route("/users", methods=["POST"], strict_slashes=False)
-def user() -> Tuple[Response, int]:
+def user():
     """
     Registers a new user and returns a JSON response.
     """
