@@ -65,11 +65,17 @@ class DB:
         """
         if kwargs is None:
             raise InvalidRequestError
-        key_cols = User.__table__.columns.keys()
-        for k in kwargs.keys():
-            if k not in key_cols:
+
+        query = self._session.query(User)
+
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
                 raise InvalidRequestError
-        rqrd_usr = self._session.query(User).filter_by(**kwargs).first()
-        if rqrd_usr is None:
+            query = query.filter(getattr(User, key) == value)
+
+        user = query.first()
+
+        if user is None:
             raise NoResultFound
-        return rqrd_usr
+
+        return user
