@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """DB module
 """
+from xml.dom import NotFoundErr
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
 
 from user import Base, User
 
@@ -45,3 +47,32 @@ class DB:
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs) -> User:
+        """
+        Finds a user by filtering on multiple keyword arguments.
+
+        Args:
+            **kwargs: Arbitrary keyword arguments representing attributes
+                    to filter by (e.g., email="john@example.com").
+
+        Returns:
+            User: The first matching user object, or raises an exception.
+
+        Raises:
+            NoResultFound: If no matching user is found.
+            InvalidRequestError: If invalid keyword arguments are provided.
+        """
+        query = self._session.query(User)
+
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise InvalidRequestError()
+            query = query.filter(getattr(User, key) == value)
+
+        user = query.first()
+
+        if user is None:
+            raise NoResultFound()
+
+        return user
