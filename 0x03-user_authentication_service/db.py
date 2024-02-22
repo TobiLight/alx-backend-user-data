@@ -98,6 +98,9 @@ class DB:
 
         user = self.find_user_by(id=user_id)
 
+        if user is None:
+            return None
+
         for key, value in kwargs.items():
             if not hasattr(User, key):
                 raise ValueError
