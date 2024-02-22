@@ -77,3 +77,22 @@ class Auth:
                            encode())
         except NoResultFound:
             return False
+
+    def create_session(self, email: str) -> str:
+        """
+        Creates a new session for the user and returns the session ID.
+
+        Args:
+            email (str): The user's email address.
+
+        Returns:
+            str: The newly generated session ID.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            self._db.update_user(user_id=user.id, session_id=session_id)
+
+            return session_id
+        except Exception:
+            return None
