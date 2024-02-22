@@ -100,7 +100,7 @@ def get_reset_password_token() -> Response:
 
 
 @app.route("/reset_password", methods=["PUT"], strict_slashes=False)
-def update_password() -> Response:
+def update_password():
     """Handles password reset requests and updates passwords."""
     form = request.form
     email: str = form['email']
