@@ -2,6 +2,7 @@
 """Basic Flask App"""
 from flask import Flask, Response, abort, jsonify, redirect, request
 from auth import Auth
+from uuid import uuid4
 
 
 AUTH = Auth()
@@ -79,6 +80,7 @@ def profile():
     if user is None:
         abort(403)
     return jsonify({"email": user.email})
+
 
 
 if __name__ == "__main__":
