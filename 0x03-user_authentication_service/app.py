@@ -107,7 +107,6 @@ def update_password():
     reset_token: str = form['reset_token']
     new_password: str = form['new_password']
 
-
     try:
         AUTH.update_password(reset_token, password=new_password)
     except ValueError:
