@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Auth module"""
 
+from typing import Union
 import bcrypt
 from db import DB
 from bcrypt import hashpw, gensalt, checkpw
@@ -95,4 +96,23 @@ class Auth:
 
             return session_id
         except Exception:
+            return None
+
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
+        """
+        Retrieves the user associated with the given session ID.
+
+        Args:
+            session_id (str): The session ID to look up.
+
+        Returns:
+            User | None: The corresponding User object or None if not found.
+        """
+        if not session_id:
+            return None
+
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+            return user
+        except NoResultFound:
             return None
