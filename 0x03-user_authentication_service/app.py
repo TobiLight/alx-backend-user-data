@@ -88,17 +88,15 @@ def get_reset_password_token() -> Response:
     """
     form = request.form
     email: str = form['email']
+    reset_token = None
 
     try:
         reset_token = AUTH.get_reset_password_token(email)
-
-        response = jsonify(
-            {"email": email, "reset_token": reset_token})
-        response.status_code = 200
-
-        return response
     except ValueError:
         abort(403)
+
+    return jsonify(
+        {"email": email, "reset_token": reset_token})
 
 
 if __name__ == "__main__":
