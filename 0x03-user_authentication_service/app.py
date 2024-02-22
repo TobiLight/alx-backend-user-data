@@ -23,8 +23,8 @@ def user():
     Registers a new user and returns a JSON response.
     """
     form = request.form
-    email: str = form.get('email') or ''
-    password: str = form.get('password') or ''
+    email: str = form['email']
+    password: str = form['password']
 
     try:
         user = AUTH.register_user(email=email, password=password)
