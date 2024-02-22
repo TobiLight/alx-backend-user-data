@@ -91,9 +91,7 @@ class DB:
                     to update (e.g., email="new_email@example.com").
 
         Raises:
-            NoResultFound: If no user with the given ID is found.
             ValueError: If an invalid keyword argument is provided.
-            StatementError: If a database-related error occurs during update.
         """
         if kwargs is None:
             return None
