@@ -98,7 +98,7 @@ class DB:
         if kwargs is None:
             return None
 
-        rqrd_usr = self.find_user_by(id=8)
+        rqrd_usr = self.find_user_by(id=user_id)
         key_cols = User.__table__.columns.keys()
         for k in kwargs:
             if k not in key_cols:
