@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Auth module"""
 
+import bcrypt
 from db import DB
 from bcrypt import hashpw, gensalt
 from user import User
@@ -8,7 +9,16 @@ from sqlalchemy.orm.exc import NoResultFound
 
 
 def _hash_password(password: str) -> bytes:
-    """Returns a salted, hashed password, which is a byte string."""
+    """
+    Returns a salted, hashed password, which is a byte string.
+
+    Args:
+        password (str): The password to be hashed
+
+    Returns:
+        Hashed password as a byte string
+
+    """
     return hashpw(password.encode('utf-8'), gensalt())
 
 
@@ -41,3 +51,24 @@ class Auth:
                 email, hashed_password.decode('utf-8'))
             return new_user
         raise ValueError(f"User {email} already exists")
+
+    def valid_login(self, email: str, password: str):
+        """
+        Validates user login credentials.
+
+        Args:
+            email (str): The user's email address.
+            password (str): The user's password.
+
+        Returns:
+            bool: True if credentials are valid, False otherwise.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            is_valid_password = bcrypt.checkpw(password.encode(
+                'utf-8'), hashed_password=user.hashed_password.encode('utf-8'))
+            if not is_valid_password:
+                return False
+            return True
+        except NoResultFound:
+            return False
