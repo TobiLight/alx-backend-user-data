@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """Basic Flask App"""
-
-from typing import Tuple
 from flask import Flask, Response, abort, jsonify, redirect, request
 from auth import Auth
 
@@ -71,6 +69,17 @@ def logout():
     response = redirect("/")
     response.delete_cookie("session_id")
     return response
+
+
+@app.route("/profile", methods=['GET'])
+def profile():
+    """Retrieves and returns user profile information."""
+    session_id = request.cookies.get('cookies')
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is not None and session_id is not None:
+        return jsonify({"email": user.email}), 200
+    abort(403)
+
 
 
 if __name__ == "__main__":
