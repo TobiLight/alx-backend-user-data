@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Auth module"""
 
+from re import L
 from typing import Union
 import bcrypt
 from db import DB
@@ -148,5 +149,24 @@ class Auth:
             reset_token = _generate_uuid()
             self._db.update_user(user_id=user.id, reset_token=reset_token)
             return reset_token
+        except NoResultFound:
+            raise ValueError
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """
+        Resets a user's password using a valid reset token.
+
+        Args:
+            reset_token (str): The password reset token.
+            password (str): The new password to set.
+
+        Raises:
+            ValueError: If the reset token is invalid or the user is not found.
+        """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+            hashed_password = _hash_password(password)
+            self._db.update_user(
+                user_id=user.id, hashed_password=hashed_password, reset_token=None)
         except NoResultFound:
             raise ValueError
