@@ -63,7 +63,7 @@ class DB:
             NoResultFound: If no matching user is found.
             InvalidRequestError: If invalid keyword arguments are provided.
         """
-        if not kwargs:
+        if kwargs is None:
             raise InvalidRequestError
 
         query = self._session.query(User)
