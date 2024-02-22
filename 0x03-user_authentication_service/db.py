@@ -64,18 +64,18 @@ class DB:
             InvalidRequestError: If invalid keyword arguments are provided.
         """
         if not kwargs:
-            raise InvalidRequestError()
+            raise InvalidRequestError
 
         query = self._session.query(User)
 
         for key, value in kwargs.items():
             if not hasattr(User, key):
-                raise InvalidRequestError()
+                raise InvalidRequestError
             query = query.filter(getattr(User, key) == value)
 
         user = query.first()
 
-        if not user:
-            raise NoResultFound()
+        if user is None:
+            raise NoResultFound
 
         return user
