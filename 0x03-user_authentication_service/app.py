@@ -2,7 +2,7 @@
 """Basic Flask App"""
 
 from typing import Tuple
-from flask import Flask, Response, abort, jsonify, request
+from flask import Flask, Response, abort, jsonify, redirect, request
 from auth import Auth
 
 
@@ -51,6 +51,26 @@ def login():
         return response
     else:
         abort(401)
+
+
+@app.route("/sessions", methods=["DELETE"])
+def logout():
+    """Handles user logout requests and invalidates sessions."""
+    session_id = request.cookies.get("session_id")
+
+    if not session_id:
+        return abort(403)
+
+    user = AUTH.get_user_from_session_id(session_id)
+
+    if not user:
+        return abort(403)
+
+    AUTH.destroy_session(user.id)
+
+    response = redirect("/")
+    response.delete_cookie("session_id")
+    return response
 
 
 if __name__ == "__main__":
