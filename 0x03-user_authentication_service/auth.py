@@ -63,13 +63,10 @@ class Auth:
         Returns:
             bool: True if credentials are valid, False otherwise.
         """
-        user = None
         try:
             user = self._db.find_user_by(email=email)
-            if user is not None:
-                return checkpw(bytes(password, 'utf-8'),
-                               hashed_password=user.hashed_password)
+            if checkpw(bytes(password, 'utf-8'), user.hashed_password):
+                return True
+            return False
         except NoResultFound:
             return False
-
-        return False
