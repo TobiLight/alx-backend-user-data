@@ -75,7 +75,7 @@ class DB:
 
         user = query.first()
 
-        if user is None:
+        if not user:
             raise NoResultFound()
 
         return user
