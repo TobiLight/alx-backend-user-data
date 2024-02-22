@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """Basic Flask App"""
 
-from flask import Flask, Response, jsonify
+from typing import Tuple
+from flask import Flask, Response, jsonify, request
+from auth import Auth
+
+
+AUTH = Auth()
 
 app = Flask(__name__)
 
@@ -10,6 +15,22 @@ app = Flask(__name__)
 def index() -> Response:
     """Index route"""
     return jsonify({'message': 'Bienvenue'})
+
+
+@app.route("/users", methods=["POST"], strict_slashes=False)
+def user() -> Tuple[Response, int]:
+    """
+    Registers a new user and returns a JSON response.
+    """
+    form = request.form
+    email: str = form.get('email') or ''
+    password: str = form.get('password') or ''
+
+    try:
+        user = AUTH.register_user(email=email, password=password)
+        return jsonify({"email": "{email}", "message": "user created"}), 201
+    except:
+        return jsonify({"message": "email already registered"}), 400
 
 
 if __name__ == "__main__":
