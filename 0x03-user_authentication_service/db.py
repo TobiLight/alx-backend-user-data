@@ -93,18 +93,32 @@ class DB:
         Raises:
             ValueError: If an invalid keyword argument is provided.
         """
-        if kwargs is None:
-            return None
+        # if kwargs is None:
+        #     return None
 
+        # user = self.find_user_by(id=user_id)
+
+        # if user is None:
+        #     return None
+
+        # for key, value in kwargs.items():
+        #     if not hasattr(User, key):
+        #         raise ValueError
+
+        #     setattr(user, key, value)
+
+        # self._session.commit()
         user = self.find_user_by(id=user_id)
-
         if user is None:
-            return None
-
+            return
+        update_source = {}
         for key, value in kwargs.items():
-            if not hasattr(User, key):
-                raise ValueError
-
-            setattr(user, key, value)
-
+            if hasattr(User, key):
+                update_source[getattr(User, key)] = value
+            else:
+                raise ValueError()
+        self._session.query(User).filter(User.id == user_id).update(
+            update_source,
+            synchronize_session=False,
+        )
         self._session.commit()
