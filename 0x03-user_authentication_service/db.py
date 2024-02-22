@@ -6,7 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import Base, User
 
@@ -63,11 +64,19 @@ class DB:
             NoResultFound: If no matching user is found.
             InvalidRequestError: If invalid keyword arguments are provided.
         """
-        try:
-            result = self._session.query(User).filter_by(**kwargs).first()
-        except Exception:
+        if kwargs is None:
             raise InvalidRequestError
-        if result is None:
+
+        query = self._session.query(User)
+
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise InvalidRequestError
+            query = query.filter(getattr(User, key) == value)
+
+        user = query.first()
+
+        if user is None:
             raise NoResultFound
 
-        return result
+        return user
