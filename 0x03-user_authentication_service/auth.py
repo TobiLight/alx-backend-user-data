@@ -29,6 +29,7 @@ def _generate_uuid() -> str:
     from uuid import uuid4
     return str(uuid4())
 
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
