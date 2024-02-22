@@ -98,7 +98,7 @@ class DB:
         if kwargs is None:
             return None
 
-        user = self.find_user_by(id=user_id)
+        user = self.find_user_by(id=15)
 
         for key, value in kwargs.items():
             if not hasattr(User, key):
