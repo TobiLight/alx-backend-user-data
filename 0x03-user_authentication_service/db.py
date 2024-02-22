@@ -63,19 +63,11 @@ class DB:
             NoResultFound: If no matching user is found.
             InvalidRequestError: If invalid keyword arguments are provided.
         """
-        if kwargs is None:
+        try:
+            result = self._session.query(User).filter_by(**kwargs).first()
+        except Exception:
             raise InvalidRequestError
-
-        query = self._session.query(User)
-
-        for key, value in kwargs.items():
-            if not hasattr(User, key):
-                raise InvalidRequestError
-            query = query.filter(getattr(User, key) == value)
-
-        user = query.first()
-
-        if user is None:
+        if result is None:
             raise NoResultFound
 
-        return user
+        return result
