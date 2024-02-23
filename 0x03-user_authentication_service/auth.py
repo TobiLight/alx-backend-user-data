@@ -73,12 +73,20 @@ class Auth:
         Returns:
             bool: True if credentials are valid, False otherwise.
         """
+        # try:
+        #     user = self._db.find_user_by(email=email)
+        #     return checkpw(bytes(password, 'utf-8'), user.hashed_password.
+        #                    encode())
+        # except NoResultFound:
+        #     return False
+
         try:
+            # find the user with the given email
             user = self._db.find_user_by(email=email)
-            return checkpw(bytes(password, 'utf-8'), user.hashed_password.
-                           encode())
         except NoResultFound:
             return False
+        # check validity of password
+        return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
 
     def create_session(self, email: str) -> str:
         """
