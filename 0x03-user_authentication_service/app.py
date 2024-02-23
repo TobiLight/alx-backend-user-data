@@ -103,7 +103,7 @@ def get_reset_password_token() -> Response:
 def update_password():
     """Handles password reset requests and updates passwords."""
     form = request.form
-    email = form['email']
+    email = form["email"]
     reset_token = form['reset_token']
     new_password = form['new_password']
 
