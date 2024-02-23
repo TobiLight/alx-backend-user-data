@@ -99,7 +99,7 @@ def get_reset_password_token() -> Response:
         {"email": email, "reset_token": reset_token})
 
 
-@app.route('/reset_password', methods=['PUT'])
+@app.route("/reset_password", methods=["PUT"], strict_slashes=False)
 def update_password():
     """Handles password reset requests and updates password."""
     form = request.form
@@ -115,4 +115,4 @@ def update_password():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000", debug=True)
+    app.run(host="0.0.0.0", port=int("5000"))
